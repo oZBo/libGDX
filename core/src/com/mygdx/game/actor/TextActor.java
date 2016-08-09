@@ -9,11 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TextActor extends Actor {
 
-    private Matrix4 matrix = new Matrix4();
+    private Matrix4 matrix;
     private BitmapFontCache bitmapFontCache;
     private GlyphLayout textBounds;
 
     public TextActor(BitmapFont bitmapFont, String text) {
+        matrix = new Matrix4();
         bitmapFontCache = new BitmapFontCache(bitmapFont);
         textBounds = bitmapFontCache.setText(text, 0, 0);
     }
