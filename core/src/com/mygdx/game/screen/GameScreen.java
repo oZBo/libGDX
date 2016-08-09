@@ -2,18 +2,16 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.manager.FontManager;
 import com.mygdx.game.manager.ResourceManager;
 
 /**
@@ -24,9 +22,6 @@ public class GameScreen implements Screen {
     SpriteBatch batch;
     Texture textureDroplet;
     Sprite sprite;
-
-    Sound soundWaterdrop;
-    Music musicRain;
 
     BitmapFont font;
 
@@ -42,11 +37,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         textureDroplet = ResourceManager.getInstance().getTextureByName(ResourceManager.TEXTURE_DROPLET);
         sprite = new Sprite(textureDroplet);
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/main_font.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 25;
-        font = fontGenerator.generateFont(parameter); // font size 12 pixels
-        fontGenerator.dispose();
+        font = FontManager.getInstance().generateFont();
         startTime = TimeUtils.millis();
     }
 
