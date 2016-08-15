@@ -52,8 +52,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
         elapsedTime = TimeUtils.timeSinceMillis((long) startTime);
         float speed = 0.05f;
         float radius = 60.0f;
@@ -65,7 +64,7 @@ public class GameScreen implements Screen {
         fps.draw(batch, 1f);
 
         LevelManager.getInstance().generateCircle(batch, firstCircle, font, radius, angle);
-        angle = elapsedTime * -speed;
+        angle = elapsedTime * speed;
         radius = 100f;
         LevelManager.getInstance().generateCircle(batch, secondCircle, font, radius, angle);
         angle = elapsedTime * speed;
@@ -74,8 +73,8 @@ public class GameScreen implements Screen {
 
         TextActor centerSymbol = new TextActor(font, "D");
         centerSymbol.setPosition(center.x, center.y);
+        centerSymbol.setRotation(angle);
         centerSymbol.draw(batch, 1f);
-
         batch.end();
     }
 

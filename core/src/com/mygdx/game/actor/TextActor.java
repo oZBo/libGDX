@@ -17,6 +17,8 @@ public class TextActor extends Actor {
         matrix = new Matrix4();
         bitmapFontCache = new BitmapFontCache(bitmapFont);
         textBounds = bitmapFontCache.setText(text, 0, 0);
+        this.setWidth(textBounds.width/2);
+        this.setHeight(textBounds.height/2);
     }
 
     public GlyphLayout getTextBounds() {
@@ -41,6 +43,14 @@ public class TextActor extends Actor {
     public void setOrigin(float x, float y) {
         this.setOriginX(x);
         this.setOriginY(y);
+    }
+
+    public void setTextMirrored(boolean isMirrored){
+
+    }
+
+    public void setTextFlipped(boolean isFlipped){
+
     }
 
     @Override

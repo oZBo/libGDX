@@ -41,16 +41,19 @@ public class LevelManager {
     public void generateCircle(SpriteBatch batch, List<Character> symbolList, BitmapFont font, float radius, float angle) {
 
         for (int i = 0; i < symbolList.size(); i++) {
+            float offset = i*0.1f + 0.6f;
+            if(i % 2 != 0){
+                offset += 0.6f;
+            }
             TextActor symbol = new TextActor(font, "" + symbolList.get(i));
-            symbol.setPosition(center.x + radius * (float) Math.cos(angle * MathUtils.degRad + i), center.y + radius * (float) Math.sin(angle * MathUtils.degRad + (float) i));
-            symbol.setRotation(angle * MathUtils.degRad);
-            symbol.draw(batch, 1f);
+            symbol.setPosition(center.x + radius * (float) Math.cos(angle * MathUtils.degRad + offset + 2), center.y + radius * (float) Math.sin(angle * MathUtils.degRad + offset + 2));
+            symbol.draw(batch, 0.05f);
         }
     }
 
     private static char rndChar() {
         Random r = new Random();
-        String alphabet = "QWERTYUIOPASDFGHJKLZXCVBNM";
+        String alphabet = "A";
         return alphabet.charAt(r.nextInt(alphabet.length()));
     }
 
