@@ -4,16 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.actor.TextActor;
 import com.mygdx.game.manager.FontManager;
 import com.mygdx.game.manager.LevelManager;
-import com.mygdx.game.manager.ResourceManager;
+import com.mygdx.game.utils.MathUtils;
 
 import java.util.List;
 
@@ -23,8 +21,6 @@ import java.util.List;
 public class GameScreen implements Screen {
 
     SpriteBatch batch;
-    Texture textureDroplet;
-    Sprite sprite;
 
     BitmapFont font;
 
@@ -39,20 +35,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        firstCircle = LevelManager.getInstance().fillListOfChars(10);
-        secondCircle = LevelManager.getInstance().fillListOfChars(15);
-        thirdCircle = LevelManager.getInstance().fillListOfChars(20);
+        firstCircle = LevelManager.getInstance().fillListOfChars(MathUtils.calcCharsNumberInCircle(40, 60));
+        secondCircle = LevelManager.getInstance().fillListOfChars(MathUtils.calcCharsNumberInCircle(40, 100));
+        thirdCircle = LevelManager.getInstance().fillListOfChars(MathUtils.calcCharsNumberInCircle(40, 140));
         camera = new OrthographicCamera();
         batch = new SpriteBatch();
-        textureDroplet = ResourceManager.getInstance().getTextureByName(ResourceManager.TEXTURE_DROPLET);
-        sprite = new Sprite(textureDroplet);
         font = FontManager.getInstance().generateFont();
         startTime = TimeUtils.millis();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
         elapsedTime = TimeUtils.timeSinceMillis((long) startTime);
         float speed = 0.05f;
         float radius = 60.0f;
@@ -63,17 +57,17 @@ public class GameScreen implements Screen {
         fps.setPosition(40, 40);
         fps.draw(batch, 1f);
 
-        LevelManager.getInstance().generateCircle(batch, firstCircle, font, radius, angle);
+        LevelManager.getInstance().drawCircle(batch, firstCircle, font, radius, angle);
         angle = elapsedTime * speed;
         radius = 100f;
-        LevelManager.getInstance().generateCircle(batch, secondCircle, font, radius, angle);
+        LevelManager.getInstance().drawCircle(batch, secondCircle, font, radius, angle);
         angle = elapsedTime * speed;
         radius = 140f;
-        LevelManager.getInstance().generateCircle(batch, thirdCircle, font, radius, angle);
+        LevelManager.getInstance().drawCircle(batch, thirdCircle, font, radius, angle);
 
         TextActor centerSymbol = new TextActor(font, "D");
         centerSymbol.setPosition(center.x, center.y);
-        centerSymbol.setRotation(angle);
+        centerSymbol.setOrigin(centerSymbol.getWidth(), centerSymbol.getHeight());
         centerSymbol.draw(batch, 1f);
         batch.end();
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.actor.CircleActor;
 import com.mygdx.game.actor.TextActor;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class LevelManager {
 
     private static LevelManager instance;
     private static Vector2 center = new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+    private static List<CircleActor> listOfCircles = new ArrayList<CircleActor>();
 
     public static LevelManager getInstance() {
         if (instance == null) {
@@ -38,15 +40,16 @@ public class LevelManager {
         return listOfSymbols;
     }
 
-    public void generateCircle(SpriteBatch batch, List<Character> symbolList, BitmapFont font, float radius, float angle) {
+    public void addCircle(){
 
+    }
+
+    public void drawCircle(SpriteBatch batch, List<Character> symbolList, BitmapFont font, float radius, float angle) {
         for (int i = 0; i < symbolList.size(); i++) {
-            float offset = i*0.1f + 0.6f;
-            if(i % 2 != 0){
-                offset += 0.6f;
-            }
+            float offset = 360 / symbolList.size();
+            offset = offset * i;
             TextActor symbol = new TextActor(font, "" + symbolList.get(i));
-            symbol.setPosition(center.x + radius * (float) Math.cos(angle * MathUtils.degRad + offset + 2), center.y + radius * (float) Math.sin(angle * MathUtils.degRad + offset + 2));
+            symbol.setPosition(center.x + radius * (float) Math.cos((angle + offset) * MathUtils.degRad ), center.y + radius * (float) Math.sin((angle + offset) * MathUtils.degRad ));
             symbol.draw(batch, 0.05f);
         }
     }
@@ -55,6 +58,26 @@ public class LevelManager {
         Random r = new Random();
         String alphabet = "A";
         return alphabet.charAt(r.nextInt(alphabet.length()));
+    }
+
+    public void changeMovementDirection(CircleActor circle, boolean isClockwise) {
+
+    }
+
+    public void changeMovementSpeed(CircleActor circle, float speed) {
+
+    }
+
+    public void setCharsMirrored(CircleActor circle, boolean isMirrored) {
+
+    }
+
+    public void setCharsReversed(CircleActor circle, boolean isReversed) {
+
+    }
+
+    public CircleActor getCircleByIndex(int index){
+        return listOfCircles.get(index);
     }
 
 }
