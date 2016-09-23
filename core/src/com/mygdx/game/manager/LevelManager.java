@@ -3,14 +3,17 @@ package com.mygdx.game.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.actor.CircleActor;
 import com.mygdx.game.actor.TextActor;
+import com.mygdx.game.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static com.mygdx.game.utils.MathUtils.calcXPosInCircle;
+import static com.mygdx.game.utils.MathUtils.calcYPosInCircle;
 
 /**
  * Created by braincollaboration on 09/08/2016.
@@ -32,39 +35,46 @@ public class LevelManager {
 
     }
 
-    public List<Character> fillListOfChars(int numberOfSymbols) {
-        List<Character> listOfSymbols = new ArrayList<Character>();
+    public void addCircle(int numberOfSymbols, float radius, float speed, BitmapFont font) {
+        List<TextActor> listOfSymbols = new ArrayList<TextActor>();
         for (int i = 0; i < numberOfSymbols; i++) {
-            listOfSymbols.add(rndChar());
+            TextActor symbol = new TextActor(font, "" + rndChar());
+            listOfSymbols.add(symbol);
         }
-        return listOfSymbols;
+        listOfCircles.add(new CircleActor(radius, speed, listOfSymbols));
     }
 
-    public void addCircle(){
-
-    }
-
-    public void drawCircle(SpriteBatch batch, List<Character> symbolList, BitmapFont font, float radius, float angle) {
-        for (int i = 0; i < symbolList.size(); i++) {
-            float offset = 360 / symbolList.size();
-            offset = offset * i;
-            TextActor symbol = new TextActor(font, "" + symbolList.get(i));
-            symbol.setPosition(center.x + radius * (float) Math.cos((angle + offset) * MathUtils.degRad ), center.y + radius * (float) Math.sin((angle + offset) * MathUtils.degRad ));
-            symbol.draw(batch, 0.05f);
+    public void drawCircles(SpriteBatch batch, float elapsedTime) {
+        for (CircleActor circle : listOfCircles) {
+            float circleRadius = circle.getRadius();
+            float circleSpeed = circle.getRotationSpeed();
+            float angle = elapsedTime * circleSpeed;
+            for (int i = 0; i < circle.getCircleSymbolsList().size(); i++) {
+                TextActor symbol = circle.getSymbolByIndex(i);
+                float offset = 360 / MathUtils.calcOffsetForEachSymbol(40, circleRadius);
+                offset = offset * i;
+                symbol.setPosition(center.x + calcXPosInCircle(angle, circleRadius, offset), center.y + calcYPosInCircle(angle, circleRadius, offset));
+                symbol.setRotation(angle + offset + 90);
+                symbol.draw(batch, 0.05f);
+            }
         }
     }
 
     private static char rndChar() {
         Random r = new Random();
-        String alphabet = "A";
+        String alphabet = "1324567890";
         return alphabet.charAt(r.nextInt(alphabet.length()));
     }
 
-    public void changeMovementDirection(CircleActor circle, boolean isClockwise) {
-
+    public void setMovementDirection(CircleActor circle, boolean isClockwise) {
+        if(isClockwise){
+            circle.setClockwiseRotation(true);
+        }else{
+            circle.setClockwiseRotation(false);
+        }
     }
 
-    public void changeMovementSpeed(CircleActor circle, float speed) {
+    public void setMovementSpeed(CircleActor circle, float speed) {
 
     }
 
@@ -76,7 +86,7 @@ public class LevelManager {
 
     }
 
-    public CircleActor getCircleByIndex(int index){
+    public CircleActor getCircleByIndex(int index) {
         return listOfCircles.get(index);
     }
 

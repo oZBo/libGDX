@@ -2,40 +2,44 @@ package com.mygdx.game.actor;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CircleActor extends Actor {
 
-    private List<TextActor> listOfChars;
-    private float circleRadius;
-    private float circleSpeed;
+    private List<TextActor> textElementsList;
+    private float radius;
     private boolean isClockwiseRotation = true;
     private boolean isSymbolsMirrored = true;
+    private float rotationSpeed;
 
-    public CircleActor(float circleRadius, ArrayList<TextActor> listOfChars){
-        this.circleRadius = circleRadius;
-        this.listOfChars = listOfChars;
+    public CircleActor(float circleRadius, float speed, List<TextActor> listOfChars){
+        this.radius = circleRadius;
+        this.textElementsList = listOfChars;
+        this.rotationSpeed = speed;
     }
 
-    public List<TextActor> getListOfChars() {
-        return listOfChars;
+    public List<TextActor> getCircleSymbolsList() {
+        return textElementsList;
     }
 
-    public float getCircleRadius() {
-        return circleRadius;
+    public float getRotationSpeed() {
+        if(isClockwiseRotation()) {
+            return rotationSpeed;
+        }else{
+            return rotationSpeed * -1;
+        }
     }
 
-    public void setCircleRadius(float circleRadius) {
-        this.circleRadius = circleRadius;
+    public void setRotationSpeed(float rotationSpeed) {
+        this.rotationSpeed = rotationSpeed;
     }
 
-    public float getCircleSpeed() {
-        return circleSpeed;
+    public float getRadius() {
+        return radius;
     }
 
-    public void setCircleSpeed(float circleSpeed) {
-        this.circleSpeed = circleSpeed;
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 
     public boolean isClockwiseRotation() {
@@ -52,5 +56,9 @@ public class CircleActor extends Actor {
 
     public void setSymbolsMirrored(boolean symbolsMirrored) {
         isSymbolsMirrored = symbolsMirrored;
+    }
+
+    public TextActor getSymbolByIndex(int position){
+        return textElementsList.get(position);
     }
 }
