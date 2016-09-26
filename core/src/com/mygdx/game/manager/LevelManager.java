@@ -35,7 +35,8 @@ public class LevelManager {
 
     }
 
-    public void addCircle(int numberOfSymbols, float radius, float speed, BitmapFont font) {
+    public void addCircle(float radius, float speed, BitmapFont font) {
+        int numberOfSymbols = MathUtils.calcCharsNumberInCircle(40, radius);
         List<TextActor> listOfSymbols = new ArrayList<TextActor>();
         for (int i = 0; i < numberOfSymbols; i++) {
             TextActor symbol = new TextActor(font, "" + rndChar());

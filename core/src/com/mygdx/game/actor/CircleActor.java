@@ -23,7 +23,7 @@ public class CircleActor extends Actor {
     }
 
     public float getRotationSpeed() {
-        if(isClockwiseRotation()) {
+        if(!isClockwiseRotation()) {
             return rotationSpeed;
         }else{
             return rotationSpeed * -1;
