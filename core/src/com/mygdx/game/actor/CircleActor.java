@@ -1,5 +1,7 @@
 package com.mygdx.game.actor;
 
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.List;
@@ -11,11 +13,13 @@ public class CircleActor extends Actor {
     private boolean isClockwiseRotation = true;
     private boolean isSymbolsMirrored = true;
     private float rotationSpeed;
+    private Circle selfCircle;
 
-    public CircleActor(float circleRadius, float speed, List<TextActor> listOfChars){
+    public CircleActor(Vector2 position, float circleRadius, float speed, List<TextActor> listOfChars){
         this.radius = circleRadius;
         this.textElementsList = listOfChars;
         this.rotationSpeed = speed;
+        this.selfCircle = new Circle(position, circleRadius+30);
     }
 
     public List<TextActor> getCircleSymbolsList() {
@@ -28,6 +32,10 @@ public class CircleActor extends Actor {
         }else{
             return rotationSpeed * -1;
         }
+    }
+
+    public Circle getSelfCircle() {
+        return selfCircle;
     }
 
     public void setRotationSpeed(float rotationSpeed) {

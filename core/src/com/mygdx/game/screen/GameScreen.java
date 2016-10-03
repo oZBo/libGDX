@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.actor.TextActor;
 import com.mygdx.game.manager.FontManager;
@@ -26,7 +25,6 @@ public class GameScreen implements Screen {
 
     private float elapsedTime = 0.0f;
     private float startTime;
-    private Vector2 center = new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
     @Override
     public void show() {
@@ -40,6 +38,8 @@ public class GameScreen implements Screen {
         LevelManager.getInstance().addCircle(MathUtils.calcCharsNumberInCircle(40, 140), 140, 0.05f, font);
         LevelManager.getInstance().addCircle(MathUtils.calcCharsNumberInCircle(40, 180), 180, 0.05f, font);
         LevelManager.getInstance().getCircleByIndex(3).setClockwiseRotation(false);
+        LevelManager.getInstance().generateCenterSymbol(font);
+        LevelManager.getInstance().generateAnswerTextActors(font);
 
     }
 
@@ -54,11 +54,8 @@ public class GameScreen implements Screen {
         fps.draw(batch, 1f);
 
         LevelManager.getInstance().drawCircles(batch, elapsedTime);
+        LevelManager.getInstance().drawLevel(batch);
 
-        TextActor centerSymbol = new TextActor(font, "4");
-        centerSymbol.setPosition(center.x, center.y);
-        centerSymbol.setOrigin(centerSymbol.getWidth(), centerSymbol.getHeight());
-        centerSymbol.draw(batch, 1f);
         batch.end();
     }
 

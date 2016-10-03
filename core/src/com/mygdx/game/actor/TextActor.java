@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TextActor extends Actor {
@@ -12,13 +13,17 @@ public class TextActor extends Actor {
     private Matrix4 matrix;
     private BitmapFontCache bitmapFontCache;
     private GlyphLayout textBounds;
+    private String symbol;
+    private Rectangle selfRectangle;
 
     public TextActor(BitmapFont bitmapFont, String text) {
         matrix = new Matrix4();
         bitmapFontCache = new BitmapFontCache(bitmapFont);
         textBounds = bitmapFontCache.setText(text, 0, 0);
-        this.setWidth(textBounds.width/2);
-        this.setHeight(textBounds.height/2);
+        this.symbol = text;
+        this.selfRectangle = new Rectangle(getX(), getY(), getWidth()+50, getHeight()+50);
+        this.setWidth(textBounds.width / 2);
+        this.setHeight(textBounds.height / 2);
     }
 
     public GlyphLayout getTextBounds() {
@@ -33,6 +38,7 @@ public class TextActor extends Actor {
     public void setPosition(float x, float y) {
         this.setX(x);
         this.setY(y);
+        this.selfRectangle.setPosition(x, y);
     }
 
     public void setScale(float x, float y) {
@@ -45,12 +51,20 @@ public class TextActor extends Actor {
         this.setOriginY(y);
     }
 
-    public void setTextMirrored(boolean isMirrored){
+    public void setTextMirrored(boolean isMirrored) {
 
     }
 
-    public void setTextFlipped(boolean isFlipped){
+    public void setTextFlipped(boolean isFlipped) {
 
+    }
+
+    public Rectangle getSelfRectangle() {
+        return selfRectangle;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
     @Override
