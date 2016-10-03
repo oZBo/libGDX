@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.actor.TextActor;
 import com.mygdx.game.manager.FontManager;
 import com.mygdx.game.manager.LevelManager;
-import com.mygdx.game.utils.MathUtils;
 
 /**
  * Created by braincollaboration on 30.05.2016.
@@ -32,11 +31,11 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         font = FontManager.getInstance().generateFont();
         startTime = TimeUtils.millis();
-        LevelManager.getInstance().addCircle(MathUtils.calcCharsNumberInCircle(40, 60), 60, 0.05f, font);
-        LevelManager.getInstance().addCircle(MathUtils.calcCharsNumberInCircle(40, 100), 100, 0.05f, font);
+        LevelManager.getInstance().addCircle(60, 0.05f, font);
+        LevelManager.getInstance().addCircle(100, 0.05f, font);
         LevelManager.getInstance().getCircleByIndex(1).setClockwiseRotation(false);
-        LevelManager.getInstance().addCircle(MathUtils.calcCharsNumberInCircle(40, 140), 140, 0.05f, font);
-        LevelManager.getInstance().addCircle(MathUtils.calcCharsNumberInCircle(40, 180), 180, 0.05f, font);
+        LevelManager.getInstance().addCircle(140, 0.05f, font);
+        LevelManager.getInstance().addCircle(180, 0.05f, font);
         LevelManager.getInstance().getCircleByIndex(3).setClockwiseRotation(false);
         LevelManager.getInstance().generateCenterSymbol(font);
         LevelManager.getInstance().generateAnswerTextActors(font);
