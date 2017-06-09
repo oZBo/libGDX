@@ -7,6 +7,11 @@ import com.mygdx.game.screen.CustomScreen;
 
 public class MyGdxGame extends Game {
 
+    public static final float SCREEN_WIDTH = 960f;
+    public static final float SCREEN_HEIGHT = 1280f;
+    public static float VIEWPORT_LEFT;
+    public static float VIEWPORT_RIGHT;
+
     @Override
     public void create() {
         ScreenManager.getInstance().init(this);
@@ -27,6 +32,12 @@ public class MyGdxGame extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+
+        float aspectRatio = (float) width / height;
+        float viewportWidth = SCREEN_HEIGHT * aspectRatio;
+
+        VIEWPORT_LEFT = (SCREEN_WIDTH - viewportWidth) / 2;
+        VIEWPORT_RIGHT = VIEWPORT_LEFT + viewportWidth;
     }
 
     @Override
